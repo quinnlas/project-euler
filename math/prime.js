@@ -1,36 +1,39 @@
 const _ = require('lodash')
 
-let runs = 0
-exports.primeGen = function* () {
-  if (runs) console.log('WARNING: primeGen is being ran again. This should probably only run once.')
-  runs++
-
-  const list = []
-
+// keep a single list so we only generate each prime once
+let primes = []
+let secretPrimeGen = (function* () {
   // keep track of the highest prime to check by squaring
   // this way we only check the primes that could be relevant while also not having to take the square root of every test number
   let highestDivisorIndex = -1
   let highestDivisorSquared = 2 // need to put off calculating until there is data in the list
-  for(let i = 2n;;i++) {
-    // if divisible by some number in the list, continue
-
+  for(let testValue = 2n;;testValue++) {
     // first set up highest divisor
-    if (i > highestDivisorSquared) {
+    if (testValue > highestDivisorSquared) {
       highestDivisorIndex++
-      highestDivisorSquared = list[highestDivisorIndex] ** 2n
+      highestDivisorSquared = primes[highestDivisorIndex] ** 2n
     }
 
+    // if divisible by some number in the list, continue
     let foundDivisor = false
     for (let divisorIndex = 0; divisorIndex <= highestDivisorIndex; divisorIndex++) {
-      if (i % list[divisorIndex] === 0n) {
+      if (testValue % primes[divisorIndex] === 0n) {
         foundDivisor = true
         break
       }
     }
     if (foundDivisor) continue
 
-    list.push(i)
-    yield i
+    primes.push(testValue)
+    yield testValue
+  }
+})()
+
+// just hand out primes from the secret list and generate more for that list if necessary
+exports.primeGen = function* () {
+  for (let i = 0;;i++) {
+    if (!primes[i]) secretPrimeGen.next() // if we need to do this, we know we only need to do it once
+    yield primes[i]
   }
 }
 
@@ -66,7 +69,6 @@ exports.powerFactorize = function (n) {
 exports.lcm = function (...nums) {
   const arr = Array.isArray(nums[0]) ? nums[0] : nums
 
-  // optimize: this will run primeGen again from the beginning for each num, the primes aren't going to change so we should usually only run it once per solution
   const factorizations = arr.map(exports.powerFactorize)
   const combinedFactorization = []
 
