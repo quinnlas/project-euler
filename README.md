@@ -1,6 +1,8 @@
-Solutions to projecteuler.net problems.
+Solutions to [Project Euler](projecteuler.net) problems.
 
-Solutions will not go past problem 100. (https://projecteuler.net/#publish)
+Solutions will not go past [problem 100](https://projecteuler.net/#publish).
+
+Run `npm i` to install.
 
 Run `npm run serve` to get an interactive for solving problems and timing the solution.
 
