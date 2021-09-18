@@ -107,3 +107,12 @@ exports.properDivisors = function (n) {
 
   return _.uniq(factors)
 }
+
+exports.isPrime = function (n) {
+  // generate primes until the list is high enough
+  while (!primes.length || primes[primes.length - 1] < n) {
+    secretPrimeGen.next()
+  }
+
+  return _.sortedIndexOf(primes, n) !== -1
+}
