@@ -1,4 +1,6 @@
+const { uniq } = require('lodash')
 const _ = require('lodash')
+const { combinations } = require('./combo')
 
 // keep a single list so we only generate each prime once
 let primes = []
@@ -84,4 +86,21 @@ exports.lcm = function (...nums) {
 
   // multiply out combinedFactorization
   return combinedFactorization.reduce((product, factor) => product * (factor.value ** factor.power), 1n)
+}
+
+// get all factors (not just prime) for n including 1 and n
+// optimize: don't repeat combinations with repeated prime factors
+exports.allFactors = function (n) {
+  const primeFactors = exports.factorize(n)
+  const factors = [1n]
+
+  for (let choose = 1; choose <= primeFactors.length; choose++) {
+    // get all combinations of "choose" prime factors and multiply them
+    // when choose === primeFactors.length we get n
+    for (let primeFactorCombination of combinations(primeFactors, choose)) {
+      factors.push(primeFactorCombination.reduce((a, b) => a * b, 1n))
+    }
+  }
+
+  return uniq(factors)
 }
