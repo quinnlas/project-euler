@@ -1,6 +1,5 @@
-const { uniq } = require('lodash')
 const _ = require('lodash')
-const { combinations } = require('./combo')
+const { combinations, allCombinations } = require('./combo')
 
 // keep a single list so we only generate each prime once
 let primes = []
@@ -98,15 +97,13 @@ exports.allFactors = function (n) {
 exports.properDivisors = function (n) {
   if (n === 1n) return []
   const primeFactors = exports.factorize(n)
-  const factors = [1n]
+  const factors = []
 
-  for (let choose = 1; choose < primeFactors.length; choose++) {
-    // get all combinations of "choose" prime factors and multiply them
-    // if choose === primeFactors.length we would get n
-    for (let primeFactorCombination of combinations(primeFactors, choose)) {
-      factors.push(primeFactorCombination.reduce((a, b) => a * b, 1n))
-    }
+  for (let combo of allCombinations(primeFactors)) {
+    // the last combo will be all factors and give us n
+    if (combo.length === primeFactors.length) continue
+    factors.push(combo.reduce((a,b) => a*b, 1n))
   }
 
-  return uniq(factors)
+  return _.uniq(factors)
 }
