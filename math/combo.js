@@ -10,3 +10,8 @@ exports.combinations = function* (array, choose, startIndex = 0) {
     }
   }
 }
+
+exports.factorial = function(n) {
+  if (n === 0n) return 1n
+  return n * exports.factorial(n - 1n)
+}

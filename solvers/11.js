@@ -24,7 +24,7 @@ const input =
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48`
 
 module.exports = function () {
-    const grid = input.split('\n').map(rowInput => rowInput.split(' ').map(Number))
+    const grid = input.split('\n').map(rowInput => rowInput.split(' ').map(BigInt))
     
     let max = 0
     // horizontal

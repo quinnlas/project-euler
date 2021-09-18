@@ -89,14 +89,20 @@ exports.lcm = function (...nums) {
 }
 
 // get all factors (not just prime) for n including 1 and n
-// optimize: don't repeat combinations with repeated prime factors
 exports.allFactors = function (n) {
+  return [...exports.properDivisors(n), n]
+}
+
+// "numbers less than n which divide evenly into n"
+// optimize: don't repeat combinations with repeated prime factors
+exports.properDivisors = function (n) {
+  if (n === 1n) return []
   const primeFactors = exports.factorize(n)
   const factors = [1n]
 
-  for (let choose = 1; choose <= primeFactors.length; choose++) {
+  for (let choose = 1; choose < primeFactors.length; choose++) {
     // get all combinations of "choose" prime factors and multiply them
-    // when choose === primeFactors.length we get n
+    // if choose === primeFactors.length we would get n
     for (let primeFactorCombination of combinations(primeFactors, choose)) {
       factors.push(primeFactorCombination.reduce((a, b) => a * b, 1n))
     }
