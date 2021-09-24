@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "node index.js",
-    "solution": "node solution"
+    "serve": "node index",
+    "solution": "node solution",
+    "next": "node next"
   },
   "author": "",
   "license": "ISC",
