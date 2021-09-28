@@ -1,13 +1,21 @@
-const readline = require('readline')
+const argProblemNumber = process.argv[2]
+if (argProblemNumber) runSolution(argProblemNumber)
+else {
+  const readline = require('readline')
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
 
-rl.question('Which problem would you like to solve? ', async problemNumber => {
-  const solver = require(`./solvers/${problemNumber.trim()}.js`)
+  rl.question('Which problem would you like to solve? ', async problemNumber => {
+    runSolution(problemNumber).then(rl.close)
+  })
+}
+
+async function runSolution(solutionNum) {
   try {
+    const solver = require(`./solvers/${solutionNum.trim()}.js`)
     const timeStart = process.hrtime.bigint()
     const answer = await solver()
     const timeEnd = process.hrtime.bigint()
@@ -18,7 +26,5 @@ rl.question('Which problem would you like to solve? ', async problemNumber => {
     if (seconds > 60) console.log('Solution took too long! Every problem can be solved in under a minute.')
   } catch (e) {
     console.error(e)
-  } finally {
-    rl.close()
   }
-})
+}
