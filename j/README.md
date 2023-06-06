@@ -1,0 +1,1 @@
+[J](https://www.jsoftware.com/#/README) is an unusual language that has some elements of functional programming and is centered around arrays. Due to the standard library functions having 1 or 2 length symbol names, it can be very cryptic to the uninitiated.
