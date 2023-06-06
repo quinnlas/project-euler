@@ -1,1 +1,1 @@
-Solutions for [Project Euler](https://projecteuler.net/about)
+Solutions for [Project Euler](https://projecteuler.net/about) in J and JavaScript. See the READMEs in each language folder for more information.
